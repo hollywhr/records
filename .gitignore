@@ -7,3 +7,7 @@
 # Python temporary files
 __pycache__/
 *.py[cod]
+
+# Node / Vite (Bytle — ADR-0002): dependencies and build output are never committed
+node_modules/
+dist/

@@ -92,7 +92,17 @@ Before serving any change:
 2. Fix any failures before committing
 3. Never serve changes with a failing gate
 
-**Why**: There is no code yet, so today `just gate` only checks the record itself: that no template placeholders are left unfilled, and that the crew registry is valid. When the first code lands, the project's own checks go into the gate's marked slot in the `justfile`: the unit tests (scoring a guess against the answer, including repeated letters like `QUEUE`, is where Wordle clones usually go wrong) and a production build. The build matters because a wrong `base` path for GitHub Pages builds without errors and then serves a blank page. ADR-0002 decides the exact commands. This text has to be updated the same day the gate changes, or the directive stops describing anything real.
+**Why**: `just gate` runs four checks:
+1. **The record**: no template placeholders are left unfilled, and the crew registry is valid.
+2. **`npm test`**: Vitest unit tests plus one integration test that mounts the whole app. They catch the bugs Wordle clones actually ship:
+   - repeated-letter scoring (`ERROR` vs `ARRAY`, `EERIE` vs `QUEUE`)
+   - a CS answer such as `MUTEX` rejected as "not a word", because English dictionaries lack it
+   - daylight-saving days that skip or repeat a puzzle
+   - a reloaded game counted twice in the stats
+   - an edit to the word list silently reshuffling the published daily schedule
+3. **`npm run build`**: a `vue-tsc` type check and then a Vite production build.
+
+The GitHub Actions deploy runs the same tests and build, so a red check never reaches the live site. Update this text the same day the gate changes, or the directive stops describing anything real.
 
 **Process**:
 ```bash
@@ -249,10 +259,11 @@ If the script was successfully used, append as comments how, and what the outcom
 Bytle is a Wordle-style game: guess a hidden word and get colored feedback on each letter. Every answer is a computer-science word (ARRAY, STACK, QUEUE, CACHE, TOKEN…). It is built with Vue single-file components using scoped CSS, so each component's styles stay inside that component, and it is hosted for free on GitHub Pages. This repo holds both the records (`docs/adr/`) and the code, unless ADR-0002 decides otherwise.
 
 ### Current focus:
-Settling the decisions that come before any code: the game rules (ADR-0001) and where the code lives and how it is built and deployed (ADR-0002). No code exists yet.
+v0.1 of Bytle is built and deployed to GitHub Pages on the provisional recommendations. Haoran still has to answer QST-WORD-LENGTH, QST-GUESS-VALIDITY, and QST-CODE-HOME, and any of those answers may change the game.
 
 ### Key decisions made:
-*(List ADRs here as they land, e.g. `- Auth approach — see docs/adr/0001-*.md`. Empty at birth is healthy.)*
+- Game rules (5-letter CS answers; guesses can be any English word plus the CS words; daily puzzle plus practice). Built provisionally, questions still open. See `docs/adr/0001-*.md`
+- Code lives in this repo, built by Vite, deployed by GitHub Actions to Pages. Built provisionally. See `docs/adr/0002-*.md`
 
 ### Open questions:
 ```bash

@@ -9,8 +9,8 @@ adr teaching map: the example is not the teaching — these are the up-links fro
 # ADR-0001: Bytle game rules: word length, valid guesses, puzzle cadence
 
 - **Date**: 2026-11-19
-- **Iteration**: 1
-- **Status**: Draft
+- **Iteration**: 2
+- **Status**: Partially Implemented
 - **Deciders**: Haoran Wang (human), Lexeme 5.5 (Claude Opus 5.5)
 
 **TL;DR**: Before any code: settle how long answers are (QST-WORD-LENGTH) and which guesses count as valid (QST-GUESS-VALIDITY). These two choices fix the grid, the word lists, and the scoring engine's contract. Whether the game is daily or unlimited is also asked here, but deferred, because it changes only how the answer is picked.
@@ -97,7 +97,7 @@ Options:
 ## Open Follow-ups
 
 ### QST-PUZZLE-CADENCE: Daily puzzle, unlimited play, or both?
-- Status: deferred — it changes only how the answer is chosen, not the engine or grid; revisit once the first playable build exists
+- Status: deferred — built provisionally as C with one change: practice draws from all answers except today's, not only from past ones (Iteration 2 explains why); revisit now that a playable build exists
 - Why asking: In **daily** mode, every player gets the same answer on a given calendar day, computed in the browser from the date, so no server is needed. Daily mode also allows streaks and a shareable emoji grid. In **unlimited** mode, each game draws a random answer. Two catches. With about 200 answers, daily-only lasts about 200 days before repeating. And an unlimited mode drawing from the same pool can reveal future daily answers.
 - Need: pick a letter (or override — any shape answers)
 
@@ -135,6 +135,18 @@ Options:
 - Contributors: Haoran Wang (dump), Lexeme 5.5 / Claude Opus 5.5 (structure, options, recommendations)
 - Changes: Created; two questions open, one deferred
 - Outcome: `Draft`
+
+### Iteration 2 (2026-11-19)
+- Trigger: Haoran's go-ahead "继续做，我要网站" ("keep going, I want the website") with all three questions still open
+- Contributors: Lexeme 5.5 / Claude Opus 5.5
+- Changes:
+  - **Built v0.1 on the recommendations**: QST-WORD-LENGTH A, QST-GUESS-VALIDITY A, QST-PUZZLE-CADENCE C. The questions stay open; each Status line says it was built provisionally.
+  - **Answer list drafted**: `src/game/words.ts` holds 150+ words under a first inclusion rule: five letters A–Z, recognizable to a CS student, no brand names, and well-known acronyms or Unix commands allowed. Haoran should review it. The "below ~100 words" falsifier on QST-WORD-LENGTH did not trigger.
+  - **Guess list**: ENABLE's 8,636 five-letter words (public domain), with the answers merged in. This confirmed the assumption: `MUTEX`, `REGEX`, `ASYNC` and `TUPLE` are **not** in ENABLE, and a test now guards the merge.
+  - **Walking back part of my own recommendation on QST-PUZZLE-CADENCE.** I had recommended that practice draw only from past daily answers, so it could never spoil a future day. At launch there are no past answers, so practice would have been empty for weeks. As built, practice draws from every answer except today's, which means it **can** reveal a future daily word. Haoran's call whether that's acceptable.
+  - **Day boundary**: local midnight, with launch day 2026-11-19 as puzzle #1. Whether a day should start at local midnight or UTC midnight is still open.
+  - **New debt**: editing the answer list reshuffles the whole daily schedule. Logged as TD-001 in `docs/TECHNICAL-DEBT.md`, and a pinned-schedule test makes it fail loudly.
+- Outcome: `Draft → Partially Implemented`
 
 ---
 

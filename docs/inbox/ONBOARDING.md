@@ -1,7 +1,8 @@
 # Crew Onboarding — read this first if you've been recruited
 
-Welcome to **⟦PROJECT-NAME⟧** — ⟦PROJECT-ONE-LINER⟧ <!-- one line: what this
-project is and who the human collaborator(s) are -->.
+Welcome to **Bytle**: a Wordle-style word-guessing game whose answers are
+computer-science words, built with Vue and hosted on GitHub Pages, deliberated
+by Haoran Wang (human) with Claude.
 
 This document captures **80% of what every seat needs to know** so per-recruit
 briefs can be short deltas (name, color, mission). Fill the bracketed
@@ -60,8 +61,7 @@ the tmux hive.
 
 ## 1. What this project is
 
-⟦PROJECT-GOAL⟧ <!-- 1-3 sentences: the goal, the repo's role (product repo?
-coordination layer?), where implementation happens; same token as CLAUDE.md's -->
+Bytle is a Wordle-style game: guess a hidden word and get colored feedback on each letter. Every answer is a computer-science word (ARRAY, STACK, QUEUE, CACHE, TOKEN…). It is built with Vue single-file components using scoped CSS, so each component's styles stay inside that component, and it is hosted for free on GitHub Pages. This repo holds both the records (`docs/adr/`) and the code, unless ADR-0002 decides otherwise.
 
 **Read first**, in order:
 1. `CLAUDE.md` — directives, project context, workflow

@@ -1,19 +1,9 @@
 # CLAUDE.md - Project Guidance
 
-> **Instantiating this template?** Placeholders look like ⟦THIS⟧ — fill-and-delete
-> each one (grep-proof on purpose; `just instantiate-check` reports which remain
-> and passes only when none do). Square-bracket text elsewhere is either a
-> per-document mold slot (filled at each mint, not at birth) or the frozen
-> dialogue placeholder `[Fill this in]` — never convert those. *(This note is
-> visible text, not an HTML comment, because the harness strips block comments
-> from the CLAUDE.md it serves at session start — a cold instantiator proved the
-> instructions were sitting exactly where their audience could not see them.
-> Delete this block when instantiation is done.)*
-
-- **Project**: ⟦PROJECT-NAME⟧
-- **Human**: ⟦HUMANS⟧
-- **AI**: ⟦AI-SEATS⟧ <!-- with the crew layer, the roster lives in docs/inbox/agent-sessions.json; name the coordinator seat here -->
-- **Last Updated**: ⟦LAST-UPDATED⟧
+- **Project**: Bytle
+- **Human**: Haoran Wang
+- **AI**: Lexeme 5.5 (Claude Opus 5.5, in Claude Code) — the sole AI seat for now; the crew layer (`docs/inbox/`) is in place but not in use until a second participant joins
+- **Last Updated**: 2026-11-19
 
 ---
 
@@ -98,15 +88,15 @@ Tests should:
 **RUN THIS PROJECT'S VERIFICATION GATE BEFORE EVERY COMMIT**
 
 Before serving any change:
-1. Run the project's verification gate: ⟦VERIFICATION-GATE⟧ <!-- test suite, build, linter, or a combination; e.g. `npm test`, `uv run pytest`, `hugo && bin/check` -->
+1. Run the project's verification gate: `just gate`
 2. Fix any failures before committing
 3. Never serve changes with a failing gate
 
-**Why**: ⟦GATE-WHY⟧ <!-- state what this project's gate actually catches — real classes of bug, real numbers if you have them. A directive that names a real gate gets followed; an unfollowable one teaches every seat that directives are decorative, and that lesson generalizes. -->
+**Why**: There is no code yet, so today `just gate` only checks the record itself: that no template placeholders are left unfilled, and that the crew registry is valid. When the first code lands, the project's own checks go into the gate's marked slot in the `justfile`: the unit tests (scoring a guess against the answer, including repeated letters like `QUEUE`, is where Wordle clones usually go wrong) and a production build. The build matters because a wrong `base` path for GitHub Pages builds without errors and then serves a blank page. ADR-0002 decides the exact commands. This text has to be updated the same day the gate changes, or the directive stops describing anything real.
 
 **Process**:
 ```bash
-⟦VERIFICATION-GATE⟧            # Must be green before commit
+just gate                      # Must be green before commit
 git add <explicit paths>       # never -A: stage by path, commit by pathspec — see CONVENTIONS.md, shared-worktree awareness
 git commit -m "..." -- <paths>
 ```
@@ -256,10 +246,10 @@ If the script was successfully used, append as comments how, and what the outcom
 ## Project Context
 
 ### What we're building:
-⟦PROJECT-GOAL⟧ <!-- 1-3 sentences; same token as ONBOARDING's — one text serves both -->
+Bytle is a Wordle-style game: guess a hidden word and get colored feedback on each letter. Every answer is a computer-science word (ARRAY, STACK, QUEUE, CACHE, TOKEN…). It is built with Vue single-file components using scoped CSS, so each component's styles stay inside that component, and it is hosted for free on GitHub Pages. This repo holds both the records (`docs/adr/`) and the code, unless ADR-0002 decides otherwise.
 
 ### Current focus:
-⟦CURRENT-FOCUS⟧
+Settling the decisions that come before any code: the game rules (ADR-0001) and where the code lives and how it is built and deployed (ADR-0002). No code exists yet.
 
 ### Key decisions made:
 *(List ADRs here as they land, e.g. `- Auth approach — see docs/adr/0001-*.md`. Empty at birth is healthy.)*

@@ -51,7 +51,7 @@ The hosting and build half of that dump is a separate topic, covered in [ADR-000
 ## Questions
 
 ### QST-WORD-LENGTH: How long are Bytle's answers: always five letters, or different each puzzle?
-- Status: unanswered
+- Status: unanswered — built provisionally on Recommendation A after Haoran's go-ahead "继续做，我要网站" (2026-11-19); still Haoran's to confirm or override
 - Why asking: The grid width, the on-screen keyboard behavior, the word lists we need, and how many CS words are even available all depend on this. Five letters lets in ARRAY, STACK, QUEUE, CACHE, TOKEN, MUTEX, QUERY, PARSE, REGEX, TUPLE… but rules out KERNEL, LAMBDA, SOCKET, POINTER, BINARY, RECURSION, and any 4-letter word (HASH, NODE, BYTE, LOOP).
 - Need: pick a letter (or override — any shape answers)
 
@@ -70,7 +70,7 @@ Options:
 ---
 
 ### QST-GUESS-VALIDITY: Which guesses does Bytle accept: any English word, only CS words, or any five letters?
-- Status: unanswered
+- Status: unanswered — built provisionally on Recommendation A after Haoran's go-ahead (2026-11-19); still Haoran's to confirm or override
 - Why asking: The answers are always CS words, but guesses are how the player collects letter information, so this decides what the game feels like. It also decides which word list we must find, license, and ship. One catch: standard English dictionaries leave out much CS jargon (MUTEX, REGEX, ASYNC), so any dictionary option has to include the answer list too, or a player could be told the correct answer "is not a word."
 - Need: pick a letter (or override — any shape answers)
 
